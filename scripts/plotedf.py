@@ -46,12 +46,12 @@ class edfFile:
         self.data=np.ravel(self.data)
         self.minI=np.minimum.reduce(np.ravel(self.data))
         self.maxI=np.maximum.reduce(np.ravel(self.data))
-        print "Opened",filename,"max=",self.maxI,"min=",self.minI
+        print("Opened",filename,"max=",self.maxI,"min=",self.minI)
 
 class myOpengl(OTk.Opengl):
 
     def __init__(self, master=None, cnf={}, **kw):
-        apply(OTk.Opengl.__init__, (self, master, cnf), kw)
+        OTk.Opengl.__init__(*(self, master, cnf), **kw)
 
     def StartRotate(self,event):
         """
@@ -76,7 +76,7 @@ class myOpengl(OTk.Opengl):
         realy = self.winfo_height() - event.y
         p1 = OGL.gluUnProject(event.x, realy, 0.) # Image is at z = 0
         p2 = OGL.gluUnProject(event.x, realy, 1.) # Image is at z = 0
-        print p1[0],p1[1],p1[2]
+        print(p1[0],p1[1],p1[2])
 #               Opengl.tkRotate(self,event)
 
     def tkAutoSpin(self, event):
@@ -98,30 +98,30 @@ class checker:
             mx=self.edfFile.maxI
         shape=(self.edfFile.rows, self.edfFile.cols)
         d=np.reshape(np.clip(self.edfFile.data,mi,mx),shape) # makes a clipped copy
-        print "makeImage",mx,mi,np.maximum.reduce(np.ravel(d)),np.minimum.reduce(np.ravel(d)),d.dtype.char,
+        print("makeImage",mx,mi,np.maximum.reduce(np.ravel(d)),np.minimum.reduce(np.ravel(d)),d.dtype.char, end=' ')
         newshape = []
         for i in shape:
             j=4
-            print j,pow(2,j),i,i<pow(2,j)
+            print(j,pow(2,j),i,i<pow(2,j))
             while i > pow(2,j):
                 j+=1
             newshape.append(j)
         newshape = tuple([pow(2,v) for v in newshape])
-        print "newshape",newshape
+        print("newshape",newshape)
         d=255.*(d-mi)/(mx-mi)
         self.image=np.zeros((newshape[0],newshape[1],3),np.uint8)
-        print self.image.shape,d.shape
+        print(self.image.shape,d.shape)
         self.image[:shape[0],:shape[1],0] = d
         self.image[:shape[0],:shape[1],1] = d
         self.image[:shape[0],:shape[1],2] = d
-        print self.image.shape
+        print(self.image.shape)
 #        import pylab as pl
 #        pl.imshow(self.image)
 #        pl.show()
         self.image = self.image # .tostring()
         self.imageWidth = newshape[1]
         self.imageHeight = newshape[0]
-        print "Returning"
+        print("Returning")
 
 
     def display(self, event=None):
@@ -203,8 +203,8 @@ class checker:
         OGL.glPixelStorei(OGL.GL_UNPACK_ALIGNMENT, 1)
 ##              glTexImage2D(GL_TEXTURE_2D, 0, 3, self.imageWidth, self.imageHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE,  self.image)
         s = self.image.tostring()
-        print len(s),self.imageWidth*self.imageHeight
-        print self.image.min(),self.image.max()
+        print(len(s),self.imageWidth*self.imageHeight)
+        print(self.image.min(),self.image.max())
         OGL.glTexImage2D(OGL.GL_TEXTURE_2D, 0, OGL.GL_RGB, self.imageWidth, self.imageHeight, 0, OGL.GL_RGB ,OGL.GL_UNSIGNED_BYTE,  self.image)
 ##              glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP)
 ##              glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP)

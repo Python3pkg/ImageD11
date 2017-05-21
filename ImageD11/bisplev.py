@@ -35,7 +35,7 @@ from ImageD11 import _splines
 import numpy as np
 
 def myasarray(a):
-    if type(a) in [type(1.0),type(1L),type(1),type(1j)]:
+    if type(a) in [type(1.0),type(1),type(1),type(1j)]:
         return np.asarray([a])
     elif hasattr(a, "shape") and len(a.shape)==0:
         # Takes care of mapping array(number) to array([number])
@@ -62,14 +62,14 @@ def bisplev(x,y,tck,dx=0,dy=0):
               the cross-product of x and y.
     """
     tx,ty,c,kx,ky=tck
-    if not (0<=dx<kx): raise ValueError,"0<=dx=%d<kx=%d must hold"%(dx,kx)
-    if not (0<=dy<ky): raise ValueError,"0<=dy=%d<ky=%d must hold"%(dy,ky)
-    x,y=map(myasarray,[x,y])
+    if not (0<=dx<kx): raise ValueError("0<=dx=%d<kx=%d must hold"%(dx,kx))
+    if not (0<=dy<ky): raise ValueError("0<=dy=%d<ky=%d must hold"%(dy,ky))
+    x,y=list(map(myasarray,[x,y]))
     if (len(x.shape) != 1) or (len(y.shape) != 1):
-        raise ValueError, "First two entries should be rank-1 arrays."
+        raise ValueError("First two entries should be rank-1 arrays.")
     z,ier=_splines._bispev(tx,ty,c,kx,ky,x,y,dx,dy)
-    if ier==10: raise ValueError,"Invalid input data"
-    if ier: raise TypeError,"An error occurred"
+    if ier==10: raise ValueError("Invalid input data")
+    if ier: raise TypeError("An error occurred")
     z.shape=len(x),len(y)
     if len(z)>1: return z
     if len(z[0])>1: return z[0]
@@ -134,33 +134,32 @@ def bisplrep(x,y,z,w=None,xb=None,xe=None,yb=None,ye=None,kx=3,ky=3,task=0,s=Non
       SEE bisplev to evaluate the value of the B-spline given its tck
       representation.
     """
-    x,y,z=map(myasarray,[x,y,z])
-    x,y,z=map(np.ravel,[x,y,z])  # ensure 1-d arrays.
+    x,y,z=list(map(myasarray,[x,y,z]))
+    x,y,z=list(map(np.ravel,[x,y,z]))  # ensure 1-d arrays.
     m=len(x)
-    if not (m==len(y)==len(z)): raise TypeError, 'len(x)==len(y)==len(z) must hold.'
+    if not (m==len(y)==len(z)): raise TypeError('len(x)==len(y)==len(z) must hold.')
     if w is None: w=np.ones(m,'d')
     else: w=myasarray(w)
-    if not len(w) == m: raise TypeError,' len(w)=%d is not equal to m=%d'%(len(w),m)
+    if not len(w) == m: raise TypeError(' len(w)=%d is not equal to m=%d'%(len(w),m))
     if xb is None: xb=x[0]
     if xe is None: xe=x[-1]
     if yb is None: yb=y[0]
     if ye is None: ye=y[-1]
-    if not (-1<=task<=1): raise TypeError, 'task must be either -1,0, or 1'
+    if not (-1<=task<=1): raise TypeError('task must be either -1,0, or 1')
     if s is None: s=m-np.sqrt(2*m)
-    if tx is None and task==-1: raise TypeError, 'Knots_x must be given for task=-1'
+    if tx is None and task==-1: raise TypeError('Knots_x must be given for task=-1')
     if tx is not None: _surfit_cache['tx']=myasarray(tx)
     nx=len(_surfit_cache['tx'])
-    if ty is None and task==-1: raise TypeError, 'Knots_y must be given for task=-1'
+    if ty is None and task==-1: raise TypeError('Knots_y must be given for task=-1')
     if ty is not None: _surfit_cache['ty']=myasarray(ty)
     ny=len(_surfit_cache['ty'])
     if task==-1 and nx<2*kx+2:
-        raise TypeError, 'There must be at least 2*kx+2 knots_x for task=-1'
+        raise TypeError('There must be at least 2*kx+2 knots_x for task=-1')
     if task==-1 and ny<2*ky+2:
-        raise TypeError, 'There must be at least 2*ky+2 knots_x for task=-1'
+        raise TypeError('There must be at least 2*ky+2 knots_x for task=-1')
     if not ((1<=kx<=5) and (1<=ky<=5)):
-        raise TypeError, \
-       'Given degree of the spline (kx,ky=%d,%d) is not supported. (1<=k<=5)'%(kx,ky)
-    if m<(kx+1)*(ky+1): raise TypeError, 'm>=(kx+1)(ky+1) must hold'
+        raise TypeError('Given degree of the spline (kx,ky=%d,%d) is not supported. (1<=k<=5)'%(kx,ky))
+    if m<(kx+1)*(ky+1): raise TypeError('m>=(kx+1)(ky+1) must hold')
     if nxest is None: nxest=kx+np.sqrt(m/2)
     if nyest is None: nyest=ky+np.sqrt(m/2)
     nxest,nyest=max(nxest,2*kx+3),max(nyest,2*ky+3)
@@ -201,10 +200,10 @@ def bisplrep(x,y,z,w=None,xb=None,xe=None,yb=None,ye=None,kx=3,ky=3,task=0,s=Non
         else:
             try:
                 logging.error(str((_iermess2[ierm][1],_iermess2[ierm][0])))
-                raise _iermess2[ierm][1],_iermess2[ierm][0]
+                raise _iermess2[ierm][1](_iermess2[ierm][0])
             except KeyError:
                 logging.error(str((_iermess2['unknown'][1],_iermess2['unknown'][0])))
-                raise _iermess2['unknown'][1],_iermess2['unknown'][0]
+                raise _iermess2['unknown'][1](_iermess2['unknown'][0])
     if full_output:
         try:
             return tck,fp,ier,_iermess2[ierm][0]

@@ -27,7 +27,7 @@ class combine_flt(object):
         First flt file (defines columns, should be same for all)
         Translations to be supplied if not zero
         """
-        print "reading", fltfile
+        print("reading", fltfile)
         sys.stdout.flush()
         self.fltfile = columnfile.columnfile( fltfile )
         onearray = numpy.ones(self.fltfile.nrows, numpy.float32)
@@ -36,7 +36,7 @@ class combine_flt(object):
         self.fltfile.addcolumn( onearray*samtz, "samtz" )
         # Convert to list for easier appending later
         self.datalist = [ list(col) for col in self.fltfile.bigarray ]
-        print len(self.datalist),len(self.datalist[0])
+        print(len(self.datalist),len(self.datalist[0]))
     def addfltfile(self, fltfile, samtx=0, samty=0, samtz=0):
         """
         Add another flt file, probably with different translations
@@ -51,7 +51,7 @@ class combine_flt(object):
             assert i == j
         for i in range(len(self.datalist)):
             self.datalist[i] += list(c.bigarray[i])
-        print len(c.bigarray[0]), len(self.datalist[0])
+        print(len(c.bigarray[0]), len(self.datalist[0]))
     def write_hdf(self, name, datagroup):
         """ Save the output, the hdf code is in columnfile.py """
         self.datalist = numpy.array(self.datalist)
@@ -68,7 +68,7 @@ def combine_flt_from_file( fname, hdfname, hdfgroup ):
     for line in open(fname).readlines():
         name = line.split()[0]
         x,y,z = [float(v) for v in line.split()[1:]]
-        print name, x, y, z
+        print(name, x, y, z)
         if o is None:
             o = combine_flt( name, x, y, z )
         else:
@@ -82,11 +82,11 @@ if __name__=="__main__":
         hdfile =  sys.argv[2]
         hdfgroup = sys.argv[3]
     except:
-        print "Usage: %s xyzfile hdffile hdfgroup"%( sys.argv[0] )
-        print """ ... where:
+        print("Usage: %s xyzfile hdffile hdfgroup"%( sys.argv[0] ))
+        print(""" ... where:
    xyzfile = ascii file with lines containing:
         fltfilename   samtx   samty   samtz
    hdffile = output hdffile with combined data in it
-   hdfgroup = group name (directory) in the hdf file """
+   hdfgroup = group name (directory) in the hdf file """)
  
     combine_file_from_file( sys.argv[1], sys.argv[2], sys.argv[3] )

@@ -35,7 +35,7 @@ def makedata():
 def losedata():
     for i in range(4):
         name = "data%04d.edf"%(i)
-        print "removing",name
+        print("removing",name)
         os.remove(name)
     os.remove("dark_bad.edf")
     os.remove("dark_good.edf")
@@ -47,7 +47,7 @@ import os, sys
 ps = os.path.join("..","scripts")
 ps = os.path.join(ps,"peaksearch.py")
 
-print ps
+print(ps)
 
 cmds = [sys.executable + " " + ps + " -n data -f 0 "]
 
@@ -76,9 +76,9 @@ import os
 
 def testcmdlines(clist):
     makedata()
-    print len(clist)
+    print(len(clist))
     for c in clist:
-        print c
+        print(c)
         ret = os.system(c)
         if ret != 0:
             raise Exception("Bombed")

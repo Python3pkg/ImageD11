@@ -108,18 +108,18 @@ class correctorclass: #IGNORE:R0902
         """
         # Cache the value in case of multiple calls
         if self.pixel_lut is None:
-            x_im = numpy.outer(range(dims[0]), numpy.ones(dims[1]))
-            y_im = numpy.outer(numpy.ones(dims[0]), range(dims[1]))
+            x_im = numpy.outer(list(range(dims[0])), numpy.ones(dims[1]))
+            y_im = numpy.outer(numpy.ones(dims[0]), list(range(dims[1])))
             # xcor is tck2
             x_im = numpy.add( x_im,
-                              bisplev.bisplev( range(dims[1]),
-                                               range(dims[0]),
+                              bisplev.bisplev( list(range(dims[1])),
+                                               list(range(dims[0])),
                                                self.tck2 ).T,
                               x_im)
             # ycor is tck1
             y_im = numpy.add( y_im,
-                              bisplev.bisplev( range(dims[1]),
-                                               range(dims[0]),
+                              bisplev.bisplev( list(range(dims[1])),
+                                               list(range(dims[0])),
                                                self.tck1 ).T,
                               y_im)
             self.pixel_lut = x_im, y_im
@@ -195,8 +195,8 @@ class correctorclass: #IGNORE:R0902
         # SPATIAL DISTORTION SPLINE INTERPOLATION COEFFICIENTS
         myline = fin.readline() 
         if myline[:7] != "SPATIAL":
-            raise SyntaxError, name + \
-                ": file does not seem to be a fit2d spline file"
+            raise SyntaxError(name + \
+                ": file does not seem to be a fit2d spline file")
         myline = fin.readline() # BLANK LINE
         myline = fin.readline() # VALID REGION
         myline = fin.readline() # the actual valid region, 
@@ -263,8 +263,8 @@ class perfect(correctorclass):
         """
         # Cache the value in case of multiple calls
         if self.pixel_lut is None:
-            x_im = numpy.outer(range(dims[0]), numpy.ones(dims[1]))
-            y_im = numpy.outer(numpy.ones(dims[0]), range(dims[1]))
+            x_im = numpy.outer(list(range(dims[0])), numpy.ones(dims[1]))
+            y_im = numpy.outer(numpy.ones(dims[0]), list(range(dims[1])))
             self.pixel_lut = x_im, y_im
         return self.pixel_lut
 

@@ -43,7 +43,7 @@ SCRIPT = os.path.join(sys.executable+" ..","..","scripts","index_unknown.py")
 def generate_hkls( n ):
     """ Makes solid hkl cube """
     lim = n/2
-    r = range(-lim, lim+1)
+    r = list(range(-lim, lim+1))
     npk = len(r)
     hkls = np.zeros( (3,npk,npk,npk))
     for i in r:
@@ -88,7 +88,7 @@ class testGve(unittest.TestCase):
         for u, cmd in UBIS:
             assert os.path.exists(u+".gve")
             e = SCRIPT +" -g %s "%(u+".gve")+cmd
-            print "\n",e
+            print("\n",e)
             os.system(e)
 
 

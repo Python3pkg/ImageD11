@@ -8,8 +8,8 @@ mysolver  = eps_sig_solver.solver()
 #
 # Your work starts here:
 #
-mysolver.loadmap(  u'CuAlBe_scan10.map' )
-mysolver.loadpars(  u'mypar.par' )
+mysolver.loadmap(  'CuAlBe_scan10.map' )
+mysolver.loadpars(  'mypar.par' )
 mysolver.updateparameters( )
-mysolver.compute_write_eps_sig(  u'test.out' )
+mysolver.compute_write_eps_sig(  'test.out' )
 

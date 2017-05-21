@@ -18,6 +18,6 @@ try:
             KEEP.append(g)
     write_grain_file( sys.argv[2], KEEP)
 except:
-    print __doc__
+    print(__doc__)
     raise
             

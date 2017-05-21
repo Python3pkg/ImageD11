@@ -1,6 +1,6 @@
 from matplotlib.pylab import *
 from matplotlib.colors import cnames
-keys = cnames.keys()
+keys = list(cnames.keys())
 
 
 
@@ -41,7 +41,7 @@ for line in open(sys.argv[1],"r").readlines():
         c = HSVtoRGB(g%360,0.8,0.9)
         # (g*0.4)%1, (g*0.45)%1, (g*0.55)%1
         if max(c)>1.:
-            print c,g
+            print(c,g)
         if z[0]>filloff and max(i)>1.5e9:        
             cf = HSVtoRGB(g%360,0.3,0.95)
 
@@ -70,7 +70,7 @@ for line in open(sys.argv[1],"r").readlines():
             diff = zh - z[0]
             i.append(float(items[-1]))
         else:
-            print line.rstrip(),z,zh,len(z)
+            print(line.rstrip(),z,zh,len(z))
 #legend(loc=0)
 title("Diffracted intensity versus height")
 xlabel("Total intensity")

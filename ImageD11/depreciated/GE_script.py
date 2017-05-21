@@ -32,9 +32,10 @@ class read_GEaSi_data:
             # print self.file.fileno(), self.size
             self.fp = mmap.mmap(self.file.fileno(), self.size,access=mmap.ACCESS_READ)
 
-        except IOError, (errno, strerror):
-            print "I/O error(%s): %s" % (errno, strerror)
-            print "Error in opening file: ", self.image_filename
+        except IOError as xxx_todo_changeme:
+            (errno, strerror) = xxx_todo_changeme.args
+            print("I/O error(%s): %s" % (errno, strerror))
+            print("Error in opening file: ", self.image_filename)
             raise
 
         self.fp.seek(0)
@@ -520,35 +521,35 @@ class read_GEaSi_data:
 if __name__ == '__main__':
 
     if len(sys.argv)<2:
-        print "USAGE: read_GEaSi_data.py <GEaSi_raw_image_file>"
+        print("USAGE: read_GEaSi_data.py <GEaSi_raw_image_file>")
         sys.exit()
 
     image_file = sys.argv[1]
 
-    print "init read_GEaSi_data class and load header.."
+    print("init read_GEaSi_data class and load header..")
     sequence1 = read_GEaSi_data(image_file)    
 
-    print "TimeBetweenFramesInMicrosecs = ",
-    print sequence1.TimeBetweenFramesInMicrosecs
-    print "AcquisitionTime = ",
-    print sequence1.AcquisitionTime
+    print("TimeBetweenFramesInMicrosecs = ", end=' ')
+    print(sequence1.TimeBetweenFramesInMicrosecs)
+    print("AcquisitionTime = ", end=' ')
+    print(sequence1.AcquisitionTime)
 
-    print "load_image_data..."
+    print("load_image_data...")
     image3 = sequence1.load_image_from_seq(1)
 
     if(image3 == -1):
-        print "You gave an invalid image number... too large or negative or zero....Try again"
+        print("You gave an invalid image number... too large or negative or zero....Try again")
         sys.exit(1)
     import scipy
-    print "Median = ",
-    print scipy.median(image3)
-    print "Mean = ",
-    print scipy.mean(image3)
-    print "Std = ",
-    print scipy.std(image3)
-    print "\n"
+    print("Median = ", end=' ')
+    print(scipy.median(image3))
+    print("Mean = ", end=' ')
+    print(scipy.mean(image3))
+    print("Std = ", end=' ')
+    print(scipy.std(image3))
+    print("\n")
 
     image3 = Numeric.reshape(image3, (sequence1.NumberOfRowsInFrame,sequence1.NumberOfColsInFrame)) 
-    print len(image3), image3[0][0], image3[1][1],image3[2047][2047]
+    print(len(image3), image3[0][0], image3[1][1],image3[2047][2047])
 
    

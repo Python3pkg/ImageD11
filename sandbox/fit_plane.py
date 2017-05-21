@@ -104,7 +104,7 @@ def test():
     assert (p.calc( np.array([[  0, 2, 0]] ) ) == np.array( [ 0, 2,-1] )).all()
     assert (p.calc( np.array([[  0,-1, 0]] ) ) == np.array( [ 0,-1, 2] )).all()
     
-    print "Tests look OK"
+    print("Tests look OK")
 
 if __name__ == "__main__":
     test()

@@ -5,7 +5,7 @@ from ImageD11.unitcell import unitcell
 c = columnfile(sys.argv[1])
 u = unitcell((3.66,3.66,3.66,90,90,90),"F")
 u.makerings(1.)
-print u.ringds
+print(u.ringds)
 tth = [arcsin(0.144088*d/2)*360/pi for d in u.ringds]
 m = abs(c.tth - tth[0])< 0.1
 for t in tth:

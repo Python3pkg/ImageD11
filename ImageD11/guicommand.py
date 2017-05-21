@@ -71,7 +71,7 @@ mysolver  = eps_sig_solver.solver()
                   fails - returns False
                           you look for self.lasttraceback
         """
-        if obj not in self.objects.keys():
+        if obj not in list(self.objects.keys()):
             raise Exception("ERROR! Unknown command object")
         o = self.objects[obj]
         ran = "my%s.%s("% (obj, command)
@@ -86,7 +86,7 @@ mysolver  = eps_sig_solver.solver()
             for a in args:
                 ran="%s %s %s"%(ran,addedcomma,repr(a))
                 addedcomma=","
-            for k,v in kwds.items():
+            for k,v in list(kwds.items()):
                 ran="%s %s %s=%s "%(ran,addedcomma,k,v)
                 addedcomma=","
             ran+=" )\n"
@@ -113,7 +113,7 @@ mysolver  = eps_sig_solver.solver()
 
         Returns object.name
         """
-        if obj not in self.objects.keys():
+        if obj not in list(self.objects.keys()):
             raise Exception("ERROR! Unknown command object")
         attribute = getattr(self.objects[obj],name)
         if RETURN_NUMERICS:

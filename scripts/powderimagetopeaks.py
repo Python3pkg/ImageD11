@@ -36,8 +36,8 @@ if __name__=="__main__":
         inputdata = openimage.openimage(sys.argv[1])
         step = int(sys.argv[3])
     except:
-        print "Usage: %s infile outfile stepsize"%(sys.argv[0])
-        print "Puts rows/cols of zeros into image spaced by stepsize"
+        print("Usage: %s infile outfile stepsize"%(sys.argv[0]))
+        print("Puts rows/cols of zeros into image spaced by stepsize")
 
     for i in range(0,inputdata.data.shape[0],step):
         inputdata.data[i,:]=0

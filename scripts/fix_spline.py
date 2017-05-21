@@ -33,9 +33,9 @@ def fix_flt( inname, outname , cor ):
     inc.writefile( outname )
 
 def help():
-    print sys.argv[0] + " columnfile_in columnfile_out splinefile"
-    print "use splinefile name perfect to remove distortion"
-    print "replaces fc and sc columns with corrected numbers"
+    print(sys.argv[0] + " columnfile_in columnfile_out splinefile")
+    print("use splinefile name perfect to remove distortion")
+    print("replaces fc and sc columns with corrected numbers")
         
 
 def mymain():
@@ -47,7 +47,7 @@ def mymain():
         sys.exit()
     outname = sys.argv[2]
     if os.path.exists(outname):
-        if not raw_input("Sure you want to overwrite %s ?"%(outname)
+        if not input("Sure you want to overwrite %s ?"%(outname)
                          )[0] in ['y','Y']:
             sys.exit()
     splinename = sys.argv[3]

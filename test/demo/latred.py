@@ -132,7 +132,7 @@ class lattice(object):
         Remainder of x after removing closest lattice point in reciprocal space
         """
         h = dot(self.v, self.hkls(g).T).T
-        print 'h',h
+        print('h',h)
         assert g.shape == h.shape, "bug!"
         return g - h
     def withvec(self, x, space="reciprocal"):
@@ -144,24 +144,24 @@ class lattice(object):
         remake the lattice with these 3 vectors
         """
         x = asarray(x)
-        print "withvec",x
-        print 'v',self.v
-        print 'vi',self.vi
+        print("withvec",x)
+        print('v',self.v)
+        print('vi',self.vi)
         if space == 'reciprocal':
             r = self.rem_hkls(x)
-            print "r",r
+            print("r",r)
             vd = argmax(fabs(dot(self.vi, x)))
-            print "vd", vd
+            print("vd", vd)
             v = list(self.v.T)  # reciprocal space is columns
             v[vd] = r
         if space == 'real':
             r = self.rem_ijks(x)
-            print "r",r
+            print("r",r)
             vd = argmax(fabs(dot(self.vi, x)))
-            print "vd",vd
+            print("vd",vd)
             v = list(self.vi)
             v[vd] = r
-        print "v",v
+        print("v",v)
         return lattice( v[0], v[1], v[2] , space=space )
     def score_recip(self, g, tol=0.1):
         """
@@ -201,33 +201,33 @@ def test_fft():
     min_pks = 300
     try:
         for i in order:
-            print vecs[i], g.colfile.sum_intensity[i]
+            print(vecs[i], g.colfile.sum_intensity[i])
             for j in order[i:]:
                 for k in order[j:]:
-                    print i,j,k
+                    print(i,j,k)
                     try:
                         l = lattice( vecs[i], vecs[j], vecs[k],
                                      space='real')
                         t = 0.1
                         ref = refine( l.vi, gv, t)
                         l = lattice( ref[0], ref[1], ref[2], space='real')
-                        print "UBI:"
-                        print l.vi
-                        print ubitocellpars(l.vi)
+                        print("UBI:")
+                        print(l.vi)
+                        print(ubitocellpars(l.vi))
                         s = l.score_recip( gv , t )
-                        print "Indexes",s ,"at tolerance",t
+                        print("Indexes",s ,"at tolerance",t)
                     
                     except:
                         import traceback
-                        print traceback.print_exc()
+                        print(traceback.print_exc())
                         raise Exception("error")
                     if s > min_pks:
                         write_ubi_file( "trial.ubi", [ l.vi ] )
                         raise Exception("Really bad control structure")
     except:
         import traceback
-        print traceback.print_exc()
-        print "Got something"
+        print(traceback.print_exc())
+        print("Got something")
 
 def test_eu():
     #Conventional cell gives:
@@ -239,14 +239,14 @@ def test_eu():
     v2 = gv[1]
     v3 = gv[6]
     l = lattice ( v1, v2, v3)
-    print l.v, l.vi
+    print(l.v, l.vi)
     esum = 0.0
     for v in gv:
-        print ("%8.5f "*3+"%4f "*3)%tuple( list(v)+list( 
-                dot(l.vi,v.T))),
+        print(("%8.5f "*3+"%4f "*3)%tuple( list(v)+list( 
+                dot(l.vi,v.T))), end=' ')
         err   = l.rem_hkls(v)
         esum += sqrt(dot(err,err))
-        print "%.5f"%(sqrt(dot(err,err)))
+        print("%.5f"%(sqrt(dot(err,err))))
     # print esum / len(o.gv)
     assert esum / len(gv) < 0.0102, "Did not fit"
 
@@ -289,8 +289,8 @@ def test1():
     o = lattice( array( [ 991, 990, 990] , float) ,
                  array( [ 990, 991, 990] , float) ,
                  array( [ 990, 990, 991] , float) )
-    print "o.v",o.v
-    print o.hkls( [990,990,990] ) 
+    print("o.v",o.v)
+    print(o.hkls( [990,990,990] )) 
     o = o.withvec( [990,990,990] ) # Remove long
     assert allclose(o.v[:,0], array( [ 1, 0, 0] , float) )
     assert allclose(o.v[:,1], array( [ 0, 1, 0] , float) )
@@ -306,5 +306,5 @@ if __name__=="__main__":
     test2()
     test_eu()
     test_fft()
-    print time.time()-start
+    print(time.time()-start)
     

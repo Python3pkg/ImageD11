@@ -14,7 +14,7 @@ def loadfiltered(filename):
     #                   0123456789012
     thisline = file_obj.readline()
     if thisline[0:12] != "# xc yc omega"[0:12]:
-        print thisline
+        print(thisline)
         raise Exception("Sorry That does not seem to be a filter peaks file,"+\
                         " output from the peaksearching menu option")
     # titles = line.replace("#","").split()
@@ -62,7 +62,7 @@ if __name__=="__main__":
         h,k,l = [float(v) for v in items[2:5]]
         results.write("# hkl %f %f %f\n"%(h,k,l))
         x,y,omega =  [float(v) for v in items[7:10]]
-        print h,k,l,x,y,omega
+        print(h,k,l,x,y,omega)
         for scan in scans:
             line = findclosest(x,y,omega,scandata[scan])
             results.write("%f %s "%(loads[scan],scan))

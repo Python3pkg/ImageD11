@@ -19,7 +19,7 @@
 
 
 from Numeric import *
-from Tkinter import *
+from tkinter import *
 
 import time,math,sys
 

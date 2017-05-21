@@ -36,32 +36,32 @@ def test_fft():
 
     assert g.gv.shape[1] == 3
     tv = rc_array( g.gv, direction='row' )
-    print "Finding lattice l1 from patterson"
+    print("Finding lattice l1 from patterson")
     l1 = find_lattice( vecs,
                        min_vec2 = 9,
                        test_vecs = tv,
                        n_try = 20 )
-    print "r2c == ubi matrix"
-    print l1.r2c 
-    print "scores", l1.score( tv )
-    print "cell",ubitocellpars(l1.r2c)
+    print("r2c == ubi matrix")
+    print(l1.r2c) 
+    print("scores", l1.score( tv ))
+    print("cell",ubitocellpars(l1.r2c))
     l1.r2c = refine( l1.r2c, g.gv, tol=0.1)
     l1.c2r = inv(l1.r2c)
-    print "With refine",l1.score( tv )
-    print "cell",ubitocellpars(l1.r2c)
-    print "Finding lattice l2 with gvectors to test"
+    print("With refine",l1.score( tv ))
+    print("cell",ubitocellpars(l1.r2c))
+    print("Finding lattice l2 with gvectors to test")
     l2 = find_lattice( vecs,
                        min_vec2 = 9,
                        n_try = 20,
                        test_vecs = tv)
-    print "r2c == ubi matrix"
-    print l2.r2c       
-    print "scores", l2.score (tv)
-    print "cell",ubitocellpars(l2.r2c)
+    print("r2c == ubi matrix")
+    print(l2.r2c)       
+    print("scores", l2.score (tv))
+    print("cell",ubitocellpars(l2.r2c))
     l2.r2c = refine( l2.r2c, g.gv, tol=0.1)
     l2.c2r = inv(l2.r2c)
-    print "With refine",l2.score( tv )
-    print "cell",ubitocellpars(l2.r2c)
+    print("With refine",l2.score( tv ))
+    print("cell",ubitocellpars(l2.r2c))
     return
 
 def test_eu():
@@ -74,15 +74,15 @@ def test_eu():
     v2 = gv[1]
     v3 = gv[6]
     assert len(v1) == 3
-    print v1,v2,v3
+    print(v1,v2,v3)
     # This means that the g-vectors are in row direction
     l = lattice ( v1, v2, v3, direction='row')
     esum = 0.0
     gv = rc_array( gv , direction='row' )
     # print v1, v2, v3
-    print "ubi/r2c",l.r2c
-    print "ub /c2r",l.c2r
-    print "dot(l.r2c, gv[0])",dot(l.r2c, gv[0])
+    print("ubi/r2c",l.r2c)
+    print("ub /c2r",l.c2r)
+    print("dot(l.r2c, gv[0])",dot(l.r2c, gv[0]))
     for v in gv:
         #print ("%8.5f "*3+"%8.5f "*3)%tuple( list(v)+list(l.flip(v))),
         assert len(v) == 3
@@ -95,8 +95,8 @@ def test_eu():
     assert esum / len(gv) < 0.0102, "Did not fit"
     s = l.score(gv, tol = 0.1)
     assert  s == 583, "Expecting to index 582 peaks, got %s"%(s) 
-    print "Indexing of eu3.gve, Average",esum / len(gv),"for",s,"peaks"
-    print "UBI is",l.r2c
+    print("Indexing of eu3.gve, Average",esum / len(gv),"for",s,"peaks")
+    print("UBI is",l.r2c)
 
 def test_eu_find():
     gv = get_eu_gv()
@@ -108,7 +108,7 @@ def test_eu_find():
                       n_try=20,
                       test_vecs=vecs)
     s = l.score(vecs, tol=0.1)
-    print "Eu3 using find_lattice scores",s
+    print("Eu3 using find_lattice scores",s)
 
 def test2():
     """ Adding a fourth vector """
@@ -284,5 +284,5 @@ if __name__=="__main__":
     test_eu_find()
     test_fft()
 
-    print time.time()-start
+    print(time.time()-start)
     

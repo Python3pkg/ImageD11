@@ -88,7 +88,7 @@ def test_XL_to_gv():
     T = np.array( [0,0,0] )
     gnew = XL_to_gv( omega, wedge, chi, XL, wavelength, T[0],T[1],T[2])
     gold = XL_to_gv_old( omega, wedge, chi, XL, wavelength, T[0],T[1],T[2])
-    print gnew-gold
+    print(gnew-gold)
 
 #test_XL_to_gv()
 
@@ -103,8 +103,8 @@ def XSXB_to_gv( XS, XB, tx, ty, tz, wavelength):
 def d_XSXB_to_gv( XS, XB, tx, ty, tz, wavelength):
     debug = False
     if debug:
-        print "in deriv, txtytz",tx,ty,tz
-        print XS.shape, XB.shape
+        print("in deriv, txtytz",tx,ty,tz)
+        print(XS.shape, XB.shape)
     xst = XS[0] - tx, XS[1] - ty, XS[2] - tz
     # dxst_dt = -1
     modxst2 = xst[0]*xst[0] + xst[1]*xst[1] + xst[2]*xst[2]
@@ -122,9 +122,9 @@ def d_XSXB_to_gv( XS, XB, tx, ty, tz, wavelength):
         dty = np.sqrt( ( t * t ).sum(axis=0) ) - modxst
         t = (XS.T - [tx,ty,tz+1]).T
         dtz = np.sqrt( ( t * t ).sum(axis=0) ) - modxst
-        print dtx[:3]
-        print dty[:3]
-        print dtz[:3]
+        print(dtx[:3])
+        print(dty[:3])
+        print(dtz[:3])
         pylab.plot(dtx, dmodxst_dt[0],"o")
         pylab.plot(dty, dmodxst_dt[1],"o")
         pylab.plot(dtz, dmodxst_dt[2],"o")
@@ -239,15 +239,15 @@ class newindexer(object):
             dgtz = XSXB_to_gv( self.XS, self.XB, tx, ty, tz+delta, wvln)-self.gv
             def pe(a,b):
                 return abs(a-b)/abs(a+b)
-            print abs((dg0_dt[0] - dgtx[0])).max()
-            print abs((dg0_dt[1] - dgty[0])).max()
-            print abs((dg0_dt[2] - dgtz[0])).max()
-            print abs((dg1_dt[0] - dgtx[1])).max()
-            print abs((dg1_dt[1] - dgty[1])).max()
-            print abs((dg1_dt[2] - dgtz[1])).max()
-            print abs((dg2_dt[0] - dgtx[2])).max()
-            print abs((dg2_dt[1] - dgty[2])).max()
-            print abs((dg2_dt[2] - dgtz[2])).max()
+            print(abs((dg0_dt[0] - dgtx[0])).max())
+            print(abs((dg0_dt[1] - dgty[0])).max())
+            print(abs((dg0_dt[2] - dgtz[0])).max())
+            print(abs((dg1_dt[0] - dgtx[1])).max())
+            print(abs((dg1_dt[1] - dgty[1])).max())
+            print(abs((dg1_dt[2] - dgtz[1])).max())
+            print(abs((dg2_dt[0] - dgtx[2])).max())
+            print(abs((dg2_dt[1] - dgty[2])).max())
+            print(abs((dg2_dt[2] - dgtz[2])).max())
 
         self.ds = np.sqrt( (self.gv*self.gv).sum(axis=0) )
         self.colfile.addcolumn( self.gv[0], 'gx')
@@ -269,7 +269,7 @@ class newindexer(object):
         hkle = hklr - hkli
         scor = np.sqrt((hkle*hkle).sum(axis=0))
         pks = np.compress( scor < tol,  np.arange( len(gv[0]) ) )
-        print "score = ", scor[pks].sum()/len(pks), len(pks)
+        print("score = ", scor[pks].sum()/len(pks), len(pks))
         if 0:
             pylab.hist(scor, bins=128)
             pylab.show()
@@ -393,7 +393,7 @@ class newindexer(object):
         vol = np.sqrt(np.linalg.det(self.cell.g))
         rscp = pow(vol, 1.0/3.0)
         pylab.hist( diffs*rscp, bins = np.arange(0,0.5,0.005) )
-        print (diffs*rscp < 0.05).sum()
+        print((diffs*rscp < 0.05).sum())
         return ra, diffs
 
     def find_triplets(self, peak):
@@ -411,11 +411,11 @@ if __name__=="__main__":
     gl = grain.read_grain_file( sys.argv[3] )
     gref = gl[0]
     for i in range(5):
-        print (3*"%.4f ")%tuple(gref.translation),
-        print (6*"%.6f ")%ubitocellpars(gref.ubi)
+        print((3*"%.4f ")%tuple(gref.translation), end=' ')
+        print((6*"%.6f ")%ubitocellpars(gref.ubi))
         gref = o.refine(gref)
-    print (3*"%.4f ")%tuple(gref.translation),
-    print (6*"%.6f ")%ubitocellpars(gref.ubi)
+    print((3*"%.4f ")%tuple(gref.translation), end=' ')
+    print((6*"%.6f ")%ubitocellpars(gref.ubi))
     1/0
     for i in range(2):
         o.find_triplets( i*17 )

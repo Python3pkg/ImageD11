@@ -51,7 +51,7 @@ class fitgrainxy:
     def saveparameters(self,filename):
         """ Save the parameters """
         out = open(filename,"w")
-        keys=self.parameters.keys()
+        keys=list(self.parameters.keys())
         keys.sort()
         for k in keys:
             try:
@@ -86,7 +86,7 @@ class fitgrainxy:
         #                   0123456789012
         line=f.readline()
         if line[0:12] !="# xc yc omega"[0:12]:
-            print line
+            print(line)
             raise Exception("Sorry That does not seem to be a filter peaks file,"\
                             " output from the peaksearching menu option")
         self.scantitles = line.replace("#","").split()
@@ -106,7 +106,7 @@ class fitgrainxy:
         try:
             xc      = self.scantitles.index("xc")
         except:
-            print self.scantitles
+            print(self.scantitles)
             raise
 #        print self.scandata[scanname].shape
         x  = self.scandata[:,xc]
@@ -147,8 +147,8 @@ class fitgrainxy:
             diff=h-hint
             drlv=np.sqrt(np.sum(diff*diff,0))
             indices = np.compress(drlv < 0.05,
-                                       range(self.scandata.shape[0]))
-            print indices.shape,"hello"
+                                       list(range(self.scandata.shape[0])))
+            print(indices.shape,"hello")
             self.scandata = self.allscandata[indices]
             npts = 10
             for i in range(npts):
@@ -171,13 +171,13 @@ class fitgrainxy:
                         tthscore = np.sum(np.sum(hint*diff) *
                                           np.sum(hint*diff) /
                                           np.sum(h*h))
-                        print x,y, tol, "%5d"%(npks),sum(drlv)/drlv.shape[0],\
-                        tthscore/drlv.shape[0],indexing.ubitocellpars(mat),
-                    print
+                        print(x,y, tol, "%5d"%(npks),sum(drlv)/drlv.shape[0],\
+                        tthscore/drlv.shape[0],indexing.ubitocellpars(mat), end=' ')
+                    print()
                 sys.stdout.flush()
-            print
-            print
-            print
+            print()
+            print()
+            print()
 
 if __name__=="__main__":
     import sys

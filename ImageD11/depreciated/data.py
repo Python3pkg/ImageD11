@@ -59,7 +59,7 @@ class data: #IGNORE:R0902
             self.header["columns"] = array.shape[1]
         else:
             self.header = header
-        self.header_keys = self.header.keys()
+        self.header_keys = list(self.header.keys())
 
     def getheader(self):
         """ return the header"""

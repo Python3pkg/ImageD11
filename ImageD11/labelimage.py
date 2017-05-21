@@ -143,7 +143,7 @@ class labelimage:
         try:
             self.outfile.write(self.titles)
         except:
-            print type(self.outfile),self.outfile
+            print(type(self.outfile),self.outfile)
             raise
 
 

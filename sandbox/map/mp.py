@@ -16,10 +16,10 @@ for f in fl:
     for g in gl:
         ubi = sym_u.find_uniq_u( g.ubi, c )
         g.set_ubi( ubi )
-        print x, y ,
+        print(x, y, end=' ')
         for i in range(3):
             for j in range(3):
-                print g.u[i][j],
-        print
+                print(g.u[i][j], end=' ')
+        print()
         
         

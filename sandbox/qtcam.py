@@ -9,9 +9,9 @@ Display it in an opencv window, tracking features
 Assumes an RGB picture (=> dim_x is 3*image size)
 """
 
-if not os.environ.has_key('TANGO_HOST'):
+if 'TANGO_HOST' not in os.environ:
     os.environ['TANGO_HOST'] = "crunch:20000"
-print "Using TANGO_HOST = ", os.environ['TANGO_HOST']
+print("Using TANGO_HOST = ", os.environ['TANGO_HOST'])
 
 import PyTango
 
@@ -212,7 +212,7 @@ class qtcam( Qt.QApplication ):
             self.last = self.numpyarray.copy()
         self.lock.unlock()
         x, y = register_image( self.refdata, self.last )
-        print "\n", x - self.refdata.shape[0], y - self.refdata.shape[1]
+        print("\n", x - self.refdata.shape[0], y - self.refdata.shape[1])
         Qt.QMessageBox.information (self.form, 
                 "Computed Offset", 
                 "Vertical  = %.5f  \nHorizontal = %.5f"%(
@@ -279,7 +279,7 @@ class qtcam( Qt.QApplication ):
                 self.last = self.numpyarray.copy()
                 changed = True
         except:
-            print "Got exception"
+            print("Got exception")
             pass
         self.lock.unlock()
         if not changed:
@@ -292,8 +292,8 @@ class qtcam( Qt.QApplication ):
         self.camlabel.show()
         self.difflabel.show()
         self.iframe += 1
-        print "Nframes %5d %.5f/s\r"%(self.iframe,
-                                      time.time()-start),
+        print("Nframes %5d %.5f/s\r"%(self.iframe,
+                                      time.time()-start), end=' ')
         sys.stdout.flush()
 
 if __name__=="__main__":

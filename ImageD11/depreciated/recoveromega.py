@@ -25,9 +25,9 @@ try:
     pksfile = open(sys.argv[2],"r")
     newpksfile = open(sys.argv[3],"w")
 except:
-    print "Usage: %s logfile pksfile newpksfile"%(sys.argv[0])
-    print " recovers omega angles from spec log files to fill information into"
-    print " peaksearch output files"
+    print("Usage: %s logfile pksfile newpksfile"%(sys.argv[0]))
+    print(" recovers omega angles from spec log files to fill information into")
+    print(" peaksearch output files")
     sys.exit()
 
 # Read all of the lines in logfile into a dictionary of filenames/omega angles
@@ -47,7 +47,7 @@ for line in logfile.readlines():
             name=fullname.split('/')[-1]
             lookups[name]=om
         except:
-            print line
+            print(line)
             raise
 
 logfile.close()

@@ -21,6 +21,6 @@ myindexer.find( )
 myindexer.scorethem( )
 myindexer.saveubis(  'test.ubi' )
 myindexer.assigntorings( )
-print "Time:",time.time()-start
+print("Time:",time.time()-start)
 myindexer.saveindexing(  'test.idx' )
-print "Time:", time.time()-start
+print("Time:", time.time()-start)

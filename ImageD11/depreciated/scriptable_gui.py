@@ -36,7 +36,7 @@ Use the normal ImageD11_gui.py script and click help -> history to get a script"
 from ImageD11.guimaker import GuiMaker
 # GuiMaker is for building up the windows etc
 
-from Tkinter import *
+from tkinter import *
 
 
 
@@ -48,7 +48,7 @@ if 1:
 
     # Help message - TODO - proper online help
     def help():
-        from tkMessageBox import showinfo
+        from tkinter.messagebox import showinfo
         showinfo("Help","Sorry, no help for you!\nPlease try harder")
 
 
@@ -68,7 +68,7 @@ if 1:
                        """
 
     def credits():
-        from tkMessageBox import showinfo
+        from tkinter.messagebox import showinfo
         showinfo("Credits",ImageD11credits)
 
 
@@ -79,14 +79,14 @@ if 1:
     license = license.license
 
     def showlicense():
-        from ScrolledText import ScrolledText
+        from tkinter.scrolledtext import ScrolledText
         win = ScrolledText(Toplevel(),width=100)
         win.insert(END,license)
         win.pack(expand=1,fill=BOTH)
         win.focus_set()
 
 
-    import tkFileDialog,os
+    import tkinter.filedialog,os
 
 
     # Inherits from the GuiMaker and uses functions defined above
@@ -98,7 +98,7 @@ if 1:
             eg: show a message about the license and list of things to do
             Then build the actual gui
             """
-            from tkMessageBox import showinfo
+            from tkinter.messagebox import showinfo
             import ImageD11
             startmessage = """
   ImageD11 version %s, Copyright (C) 2005 Jon Wright
@@ -199,8 +199,8 @@ if 1:
             #
             # Opening and saving file widgets, normally hidden, they remember where
             # you were for working directories
-            self.opener=tkFileDialog.Open()
-            self.saver=tkFileDialog.SaveAs()
+            self.opener=tkinter.filedialog.Open()
+            self.saver=tkinter.filedialog.SaveAs()
             #
             # Draw the twodplot
             from ImageD11 import twodplot

@@ -30,7 +30,7 @@ import math, logging
 from numpy.linalg import det, inv
 import numpy as np
 
-print "gv_general from ",__file__
+print("gv_general from ",__file__)
 
 def angmod(a):
     return np.arctan2( np.sin(a), np.cos(a) )
@@ -144,8 +144,8 @@ def axis_from_matrix( m ):
         direc = direc / np.sqrt(np.dot(direc, direc))
     o = rotation_axis( direc , math.degrees( angle_rad ) )
     if not (abs(o.matrix - m) < 1e-5).all():
-        print "o.matrix\n",o.matrix
-        print "m\n",m
+        print("o.matrix\n",o.matrix)
+        print("m\n",m)
         raise Exception("error in axis_from_matrix")
     return o
 

@@ -133,7 +133,7 @@ class solver:
             self.map=read_grain_file(filename)
             self.ubis=[x.ubi for x in self.map]
         except:
-            print "error when reading %s\n",filename
+            print("error when reading %s\n",filename)
             raise
     
     
@@ -188,7 +188,7 @@ class solver:
             
             f = open(outputfile,'w')
             ''' the used parameters will be the header of the output file'''
-            for k,v in sorted(self.parameterobj.parameters.iteritems()):
+            for k,v in sorted(self.parameterobj.parameters.items()):
                 f.write(("%s %s\n")%(k,v))
             ''' write titles'''
             f.write("##############################################\n")
@@ -210,7 +210,7 @@ class solver:
                     sigM = strain2stress( np.array(epsM), self.MVStiffness() )      #write the stress tensor as a symmetric matrix in crystal co-ordinates
                     sigS = np.dot( U, np.dot( sigM, U.T ) )     #sigma in sample co-ordinates
                 except:
-                    print "couldn't compute stress! please check the crystal_symmetry parameters and elastic constants"
+                    print("couldn't compute stress! please check the crystal_symmetry parameters and elastic constants")
                     writestress = False
                     pass
                 

@@ -102,7 +102,7 @@ def update_det_pars( peakdata, pars ):
     peakdata = columnfile
     pars = ImageD11 parameters object
     """
-    print "Update xl, yl, zl for current parameters"
+    print("Update xl, yl, zl for current parameters")
     for label in ["xl","yl","zl"]:
         if label not in peakdata.titles:
             peakdata.titles.append(label)
@@ -123,7 +123,7 @@ def update_det_pars( peakdata, pars ):
     peakdata.yl += peakdata.samtx * peakdata.sinomega + \
                    peakdata.samty * peakdata.cosomega
     peakdata.zl += peakdata.samtz
-    print "lab x shape",peakdata.xl.shape
+    print("lab x shape",peakdata.xl.shape)
     return peakdata
     
 
@@ -139,7 +139,7 @@ def potentialpeaks( grainlist, peakdata, pars, tol ):
     tol       = Indexing integer tolerance
     """
     assign = {} # Dict to hold output
-    print "potential peak finding"
+    print("potential peak finding")
     # Pre-allocate necessary work arrays
     # Logically these could be part of peakdata, but that is bad
     # for doing something in parallel
@@ -190,7 +190,7 @@ def potentialpeaks( grainlist, peakdata, pars, tol ):
         inds = numpy.compress( drlv < tol, indices )
         assign[i] = inds, numpy.take(hkli, inds, axis=1), numpy.take(drlv, 
                                                                     inds)
-        print i, len(inds)
+        print(i, len(inds))
         i+=1
     peakdata.drlv = drlv
     return assign
@@ -279,7 +279,7 @@ def grain_choose_single_peaks( peakdata, agrain, assign, magic = 32,
             uniq += pick_peaks( peakdata , allpks, priority = 'drlv')
     # print
     # s = set(key)
-    print len(uniq)
+    print(len(uniq))
     return     inds[uniq], hkls[uniq], drlv[uniq]
 
 
@@ -295,8 +295,8 @@ def refine_sparse( peakdata, gr, indices, hkls ):
 if __name__=="__main__":
     import sys
     if 0:
-     print """fuckit - you need a proper grain object that
-     just copies all the data for the peak it is interested in"""
+     print("""fuckit - you need a proper grain object that
+     just copies all the data for the peak it is interested in""")
      sys.exit()
 
     omega_axis = axis( [ 0, 0, 1] ) # z
@@ -322,7 +322,7 @@ if __name__=="__main__":
             #print tx,ty,tz,g.translation
             g.translation += [tx,ty,tz]
             #print tx,ty,tz,g.translation
-        print "Sand translations added"
+        print("Sand translations added")
     # Detector parameters
     pars = parameters.parameters()
     pars.loadparameters( sys.argv[3] )
@@ -334,7 +334,7 @@ if __name__=="__main__":
     
     assignments = potentialpeaks( grainlist, peakdata, pars, tol )
 
-    print "Choose uniq within potentials"
+    print("Choose uniq within potentials")
     narrowassign = {}
     for i in range(len(grainlist)):
         narrowassign[i] =  grain_choose_single_peaks( peakdata,

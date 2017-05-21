@@ -24,7 +24,7 @@ np = len(s.select( scans[0][1] ).mca(1))
 outar = numpy.zeros( (len(scans), np ), numpy.int32)
 j=0
 for i,label in scans:
-    print i,
+    print(i, end=' ')
     outar[ j ] =  s.select(label).mca(1)
     j += 1
 

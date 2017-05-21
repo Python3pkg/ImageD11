@@ -130,8 +130,8 @@ def lsq(diff, gradients):
         try:
             rhs[i] = np.dot(gradients[i].ravel(), diff.ravel())
         except:
-            print gradients[i].ravel().shape
-            print diff.ravel().shape
+            print(gradients[i].ravel().shape)
+            print(diff.ravel().shape)
             raise
         for j in range(i):
             lsqmat[i,j] = lsqmat[j,i] = \

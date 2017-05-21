@@ -181,10 +181,10 @@ def fitscan( xdata,
     result, gof, nstep = fitter.minimize( maxiters = 1000,
                                           monitor =  1,
                                           epsilon = 0.001 )
-    print "\nResults"
+    print("\nResults")
     names = "position fwhm scale eta mu radius"
     for name, value in zip(names.split(), result):
-        print "%10s %f"%(name, value)
+        print("%10s %f"%(name, value))
     mu = 0.0051
     if plot:
         from matplotlib.pylab import plot, show, cla, legend, subplot,\

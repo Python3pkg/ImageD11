@@ -85,7 +85,7 @@ dy = np.cos(np.arange(1000))/5
 dz = np.sin(np.arange(1000))/7
 
 t = np.array( (x.ravel()+dx, y.ravel()+dy, z.ravel()+dz ) )/10
-print t.shape
+print(t.shape)
 np.savetxt("t",t.T)
 
 # orientations....

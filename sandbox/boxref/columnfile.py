@@ -286,7 +286,7 @@ class columnfile:
         """
         if self.nrows == 0:
             return
-        for title, i in zip(self.titles, range(len(self.titles))):
+        for title, i in zip(self.titles, list(range(len(self.titles)))):
             setattr(self, title, self.bigarray[i])
             assert getattr(self, title).shape == (self.nrows,)
 
@@ -383,7 +383,7 @@ try:
         try:
             g = h.create_group( name )
         except:
-            print name, h
+            print(name, h)
             raise
         g.attrs['ImageD11_type'] = 'peaks'
         for t in c.titles:
@@ -403,8 +403,8 @@ try:
         """
         h = h5py.File( hdffile )
         found = False
-        for name in h.keys():
-            attrnames = h[name].attrs.keys()
+        for name in list(h.keys()):
+            attrnames = list(h[name].attrs.keys())
             for aname in attrnames:
                 if aname == "ImageD11_type" and \
                    h[name].attrs[aname] == "peaks":
@@ -412,7 +412,7 @@ try:
                     break
         if not found:
             raise Exception("hdf file has no ImageD11_peaks")
-        titles = h[name].keys()
+        titles = list(h[name].keys())
         # put titles into order ?
         dat = [h[name][titles[0]][:]]
         nrows = len(dat[0])
@@ -422,11 +422,11 @@ try:
             dat.append(h[name][t][:] )
             assert len(dat[-1]) == nrows
         c = newcolumnfile(titles)
-        print "make array"
+        print("make array")
         sys.stdout.flush()
         c.bigarray = dat # numpy.array( dat )
         c.ncols, c.nrows = len(dat),len(dat[0]) # c.bigarray.shape 
-        print "set atrib"
+        print("set atrib")
         sys.stdout.flush()
         c.set_attributes()
         return c
@@ -448,12 +448,12 @@ def bench():
     import sys, time
     start = time.time()
     colf = columnfile(sys.argv[1])
-    print colf.bigarray.shape
-    print "ImageD11", time.time() - start
+    print(colf.bigarray.shape)
+    print("ImageD11", time.time() - start)
     start = time.time()
     nolf = numpy.loadtxt(sys.argv[1])
-    print nolf.shape
-    print "numpy", time.time() - start
+    print(nolf.shape)
+    print("numpy", time.time() - start)
     
     # os.system("time -p ./a.out")
 

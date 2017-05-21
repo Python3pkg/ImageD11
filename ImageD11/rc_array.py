@@ -26,7 +26,7 @@ try:
 except ValueError: 
     pass
 except:
-    print "Unexpected exception when checking numpy behaviour"
+    print("Unexpected exception when checking numpy behaviour")
     raise
 
 

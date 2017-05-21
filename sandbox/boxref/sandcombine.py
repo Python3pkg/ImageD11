@@ -8,8 +8,8 @@ def sand_special_case(fname):
     rootdir = "/data/id11/inhouse/jon/sand0910/newpeaksearches/peaksearches"
     stem = "sand_097_0910"
     scans = "a_","b_"
-    xr = range(7)
-    zr = range(1,2)
+    xr = list(range(7))
+    zr = list(range(1,2))
     fltnames = [ ("%s%s%d_%d__all.flt"%(stem, s, xp, zp),xp,zp)
                  for s in scans
                  for zp in zr
@@ -28,8 +28,8 @@ def sand_special_case(fname):
             ))
     f.close()
     # print open(fname).read()
-    print "Hardwired sand special case!"
-    print "using default file with fltname samtx samty samtz"
+    print("Hardwired sand special case!")
+    print("using default file with fltname samtx samty samtz")
 
 if __name__=="__main__":
     from combine_flt import *

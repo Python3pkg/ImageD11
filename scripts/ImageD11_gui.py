@@ -30,10 +30,10 @@ Hopefully the gui and the gruntwork can be completely separated, eventually.
 """
 
 
-from Tkinter import *
+from tkinter import *
 import logging
 import sys
-import tkFileDialog
+import tkinter.filedialog
 import os
 
 # GuiMaker is for building up the windows etc
@@ -57,7 +57,7 @@ if __name__ == "__main__":
 
     # Help message - TODO - proper online help
     def help():
-        from tkMessageBox import showinfo
+        from tkinter.messagebox import showinfo
         hlp = """Try pointing your web browser at:
    http://fable.sourceforge.net/index.php/ImageD11
    See also the html documentation for programmers, somewhere like:
@@ -92,7 +92,7 @@ if __name__ == "__main__":
                        """
 
     def credits():
-        from tkMessageBox import showinfo
+        from tkinter.messagebox import showinfo
         showinfo("Credits", ImageD11credits)
 
     # GPL is stored in ImageD11/license.py as a string to be
@@ -102,7 +102,7 @@ if __name__ == "__main__":
     license = license.license
 
     def showlicense():
-        from ScrolledText import ScrolledText
+        from tkinter.scrolledtext import ScrolledText
         win = ScrolledText(Toplevel(), width=100)
         win.insert(END, license)
         win.pack(expand=1, fill=BOTH)
@@ -121,7 +121,7 @@ if __name__ == "__main__":
             eg: show a message about the license and list of things to do
             Then build the actual gui
             """
-            from tkMessageBox import showinfo
+            from tkinter.messagebox import showinfo
             import ImageD11
             startmessage = """
   ImageD11 version %s, Copyright (C) 2005-2017 Jon Wright
@@ -186,7 +186,7 @@ if __name__ == "__main__":
         # The twodplot object should be taking care of it's own menu
         # Stop doing it here - TODO
         def history(self):
-            from ScrolledText import ScrolledText
+            from tkinter.scrolledtext import ScrolledText
             win = ScrolledText(Toplevel(), width=100)
             history = self.guicommander.gethistory()
             win.insert(END, history)
@@ -220,8 +220,8 @@ if __name__ == "__main__":
             #
             # Opening and saving file widgets, normally hidden, they
             # remember where you were for working directories
-            self.opener = tkFileDialog.Open()
-            self.saver = tkFileDialog.SaveAs()
+            self.opener = tkinter.filedialog.Open()
+            self.saver = tkinter.filedialog.SaveAs()
             #
             # Draw the twodplot
             from ImageD11 import twodplot

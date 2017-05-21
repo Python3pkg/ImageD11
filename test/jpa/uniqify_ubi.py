@@ -16,9 +16,9 @@ ubifl = glob.glob(sys.argv[2])
 
 ubi_all = {}
 for fname in ubifl:
-    print fname
+    print(fname)
     ubi_all[fname] = indexing.readubis(fname)
-print "OK"
+print("OK")
 
 
 
@@ -44,7 +44,7 @@ pks = [
 hkl = np.array(pks,np.float).T
 
 uniq_ubis = []
-names = ubi_all.keys()
+names = list(ubi_all.keys())
 #dsu = [ (int( np.split(".")[0].split("_")[-1] ), n) for n in names ]
 #dsu.sort()
 #names = [d[1] for d in dsu]
@@ -52,7 +52,7 @@ names = ubi_all.keys()
 tol = 0.05
 for name in names[15:]:
     this_list = ubi_all[name]
-    for ubi, i in zip(this_list,range(len(this_list))):
+    for ubi, i in zip(this_list,list(range(len(this_list)))):
         gv = np.dot(np.linal.inv(ubi),hkl)
         seen = 0
         for j in range(len(uniq_ubis)):
@@ -63,13 +63,13 @@ for name in names[15:]:
                 uniq_ubis[j][1].append((name, i))
                 seen += 1
             if npk > 12 and npk < len(pks):
-                print "close...",npk,
+                print("close...",npk, end=' ')
         if seen == 0:
             uniq_ubis.append([ubi,[(name,i)]])
         if seen > 1:
-            print "uniq seen more than once",ubi,i,name
+            print("uniq seen more than once",ubi,i,name)
 
-print "Found",len(uniq_ubis),"unique ubi matrices"
+print("Found",len(uniq_ubis),"unique ubi matrices")
 
 
 z={}
@@ -84,15 +84,15 @@ def get_z(name):
 
 
 for entry in uniq_ubis:
-    print "\n\n"
+    print("\n\n")
     for i in range(3):
         for j in range(3):
-            print "# ubi[%d,%d] = %f"%(i,j,ubi[i,j])
+            print("# ubi[%d,%d] = %f"%(i,j,ubi[i,j]))
     ubi = entry[0]
 
     for (name,i) in entry[1]:
         j,zh = get_z(name)
-        print j,"%7.5f"%(zh),name,i,
+        print(j,"%7.5f"%(zh),name,i, end=' ')
 
         # we have the ubi matrix here.
         # we want to refine and score this ubi against some data
@@ -102,7 +102,7 @@ for entry in uniq_ubis:
             t.loadfiltered(name.replace(".ubi",""))
             t.computegv()
         except:
-            print name
+            print(name)
             raise
 
         # bit of a hack - between 10 and 11 degrees
@@ -114,7 +114,7 @@ for entry in uniq_ubis:
         avg = 4
         npix = 3
         intensity = np.sum((t.finalpeaks[avg,:]*t.finalpeaks[avg,:])[ind])
-        print closest.score(entry[0],t.gv.T,tol), intensity
+        print(closest.score(entry[0],t.gv.T,tol), intensity)
 
 
 # now re

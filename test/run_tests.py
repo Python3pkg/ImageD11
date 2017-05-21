@@ -20,7 +20,7 @@ modules = [
        ]
 
 HERE = os.getcwd()
-print "HERE",HERE
+print("HERE",HERE)
 
 for M in modules:
     os.chdir(HERE)

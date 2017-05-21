@@ -18,7 +18,7 @@
 
 import numpy as np
 from ImageD11 import closest, grain, transform
-import unitcell
+from . import unitcell
 
 import math, time, sys, logging
 
@@ -142,7 +142,7 @@ class indexer:
               self.cf.ring[mask] = i
               self.cf.ringerr[mask] = diff[mask]
         # Report on assignments
-        print "Ring     (  h,  k,  l) Mult  total indexed to_index  "
+        print("Ring     (  h,  k,  l) Mult  total indexed to_index  ")
         # try reverse order instead
         dsr = self.unitcell.ringds
         for j in range(len(dsr))[::-1]:
@@ -150,10 +150,10 @@ class indexer:
             n_indexed  = (self.cf.labels[ind] >  -0.5).sum()
             n_to_index = (self.cf.labels[ind] <  -0.5).sum()
             h=self.unitcell.ringhkls[dsr[j]][0]
-            print "Ring %-3d (%3d,%3d,%3d)  %3d  %5d  %5d  %5d"%(\
+            print("Ring %-3d (%3d,%3d,%3d)  %3d  %5d  %5d  %5d"%(\
                 j,h[0],h[1],h[2],len(self.unitcell.ringhkls[dsr[j]]),
-                     ind.sum(),n_indexed,n_to_index)
-        print "Total peaks",self.cf.nrows,"assigned",(self.cf.ring>=0).sum()
+                     ind.sum(),n_indexed,n_to_index))
+        print("Total peaks",self.cf.nrows,"assigned",(self.cf.ring>=0).sum())
 
 
     def pairs(self, hkl1, hkl2, cos_tol = 0.02, hkl_tol = 0.05):
@@ -170,7 +170,7 @@ class indexer:
         ind1 = allinds[ abs(self.cf.tth - tth1) < tthtol ]
         ind2 = allinds[ abs(self.cf.tth - tth2) < tthtol ]
         angle, cosangle = self.unitcell.anglehkls( hkl1, hkl2 )
-        print "Angle, cosangle",angle,cosangle,hkl1,hkl2
+        print("Angle, cosangle",angle,cosangle,hkl1,hkl2)
         assert angle > 1 and angle < 179, "hkls are parallel"
         g = np.array( (self.cf.gx, self.cf.gy, self.cf.gz), np.float )
         n = g/self.cf.modg
@@ -205,9 +205,9 @@ class indexer:
                ubi = np.linalg.inv( ub )
                npks = closest.score(ubi,gvf,0.1)
                pairs.append( (ind1[i], ind2[k], U, ubi ) )
-               print npks, ubi
+               print(npks, ubi)
         self.pairs=pairs
-        print time.time()-start,"for",len(pairs),n1.shape, n2.shape
+        print(time.time()-start,"for",len(pairs),n1.shape, n2.shape)
         return pairs
 
 
@@ -223,11 +223,11 @@ if __name__=="__main__":
    c = columnfile( sys.argv[2] )
    i = indexer( p, c )
    i.tthcalc()
-   print "Calling assign"
+   print("Calling assign")
    i.assigntorings()
    hkl1 = [int(h) for h in sys.argv[3].split(",")]
    hkl2 = [int(h) for h in sys.argv[4].split(",")]
-   print "Calling pairs"
+   print("Calling pairs")
    i.pairs(hkl1, hkl2)
 
 

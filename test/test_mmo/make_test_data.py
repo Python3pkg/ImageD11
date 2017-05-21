@@ -57,10 +57,10 @@ def test(start, step):
           "-n test -F .tif -f 0 -l 9 -t 1.0 -D 0 " + 
           "-T %f -S %f >> testpksearch.log"%(start,step))
     c = columnfile("peaks_t1.flt")
-    print "start",start,"step", step,"finds:",
-    print "Min_o",c.Min_o,"Max_o",c.Max_o,"omega",c.omega
+    print("start",start,"step", step,"finds:", end=' ')
+    print("Min_o",c.Min_o,"Max_o",c.Max_o,"omega",c.omega)
     if len(c.Min_o) == 3:
-        print "I think it might be OK"
+        print("I think it might be OK")
 test( -4, +1) 
 test( -40, +1) 
 test( 40, +1) 

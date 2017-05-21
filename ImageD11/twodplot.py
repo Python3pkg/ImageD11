@@ -29,8 +29,8 @@ matplotlib.use('TkAgg')
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 from matplotlib.figure import Figure
 
-import Tkinter as Tk
-import tkFileDialog, tkMessageBox
+import tkinter as Tk
+import tkinter.filedialog, tkinter.messagebox
 import sys,os,time
 
 class data:
@@ -105,17 +105,17 @@ class twodplot(Tk.Frame):
         self.yd=None
 
     def printplot(self):
-        fn = tkFileDialog.asksaveasfilename(title="File name to print to",
+        fn = tkinter.filedialog.asksaveasfilename(title="File name to print to",
               defaultextension="png")
-        print fn
+        print(fn)
         f,e = os.path.splitext(fn)
         extns=['png','ps','eps','bmp','raw','rgb']
-        print e
+        print(e)
         if e.lower() in ['.png','.ps','.eps','.bmp','.raw','.rgb']:
             self.update_idletasks() # Try to get screen redrawn
             self.canvas.print_figure(fn, dpi=300, orientation='landscape')
         else:
-            tkMessageBox.showinfo("Sorry","I can only make output in these formats"+str(extns))
+            tkinter.messagebox.showinfo("Sorry","I can only make output in these formats"+str(extns))
 
     def keypress(self,*arg):
         if len(arg)>1:
@@ -139,8 +139,8 @@ class twodplot(Tk.Frame):
         self.bind_all('<Prior>', lambda e : self.keypress(self.autoscaley, e )  )
 
     def autoscaley(self,e):
-        print dir(self.a.dataLim)
-        print self.a.dataLim
+        print(dir(self.a.dataLim))
+        print(self.a.dataLim)
         yr=self.a.get_ylim()
         self.a.set_ylim(yr)
 
@@ -155,7 +155,7 @@ class twodplot(Tk.Frame):
 
     def hideall(self):
         self.xr = self.yr = None
-        for item in self.plotitems.keys():
+        for item in list(self.plotitems.keys()):
             self.hidden.append(item)
 
 
@@ -177,7 +177,7 @@ class twodplot(Tk.Frame):
 #      m  : magenta
 #      y  : yello
         c = ['g','r','c','m','y','b']
-        for name in self.plotitems.keys():
+        for name in list(self.plotitems.keys()):
             if name in self.hidden:
                 continue
             item=self.plotitems[name]
@@ -185,27 +185,27 @@ class twodplot(Tk.Frame):
             #print 'y ', item.y
             #print 'd ', item.d
             #print self.plotitems[name].d
-            if item.d.has_key('color'):
+            if 'color' in item.d:
                 pc=item.d['color']
             else:
                 c.append(c[0])
                 pc=c.pop(0)
-            if item.d.has_key('pointtype'):
+            if 'pointtype' in item.d:
                 pc=item.d['pointtype']+pc
             else:
                 pc="."+pc
-            if item.d.has_key("xlabel"):
+            if "xlabel" in item.d:
                 self.a.set_xlabel(item.d["xlabel"])
-            if item.d.has_key("ylabel"):
+            if "ylabel" in item.d:
                 self.a.set_ylabel(item.d["ylabel"])
-            if item.d.has_key("title"):
+            if "title" in item.d:
                 self.a.set_title(item.d["title"])
             try:
-                if  item.d.has_key("plottype"):
+                if  "plottype" in item.d:
                     ret = self.a.hist(item.y,item.x)
                 elif item.x.shape[0]>self.maxpoints:
                     if self.quiet=="No":
-                        if tkMessageBox.askyesno("Slow plotting workaround","Shall I plot only the first %d points for increased speed?"%(self.maxpoints)):
+                        if tkinter.messagebox.askyesno("Slow plotting workaround","Shall I plot only the first %d points for increased speed?"%(self.maxpoints)):
                             ret = self.a.plot(item.x[:self.maxpoints],item.y[:self.maxpoints],pc)
                         else:
                             ret = self.a.plot(item.x,item.y,pc)
@@ -214,7 +214,7 @@ class twodplot(Tk.Frame):
                 else:
                     ret = self.a.plot(item.x,item.y,pc,alpha=0.25)
             except:
-                print "plotting exception ignored"
+                print("plotting exception ignored")
         if self.xr!=None:
             self.a.set_xlim(self.xr)
         if self.yr!=None:
@@ -326,7 +326,7 @@ if __name__=="__main__":
     if len(sys.argv)<3:
         import numpy as np
         from math import pi
-        print "Usage: %s filename format"%(sys.argv[0])
+        print("Usage: %s filename format"%(sys.argv[0]))
         x=np.arange(0.0,3.0,0.01)
         dat=epffile.powderdata(x,
                                np.sin(2*pi*x)+5,
@@ -341,7 +341,7 @@ if __name__=="__main__":
             if sys.argv[2]=="mca":
                 dat=mcadata.mcadata(sys.argv[1])
         except:
-            print "Could not read your file %s" % (sys.argv[1])
+            print("Could not read your file %s" % (sys.argv[1]))
             raise
 
     root = Tk.Tk()

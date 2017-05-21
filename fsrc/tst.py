@@ -45,7 +45,7 @@ chi =  float(p.get("chi"))
 t = np.array( [float(p.get("t_x")),
                float(p.get("t_y")),
                float(p.get("t_z"))], np.float32)
-print "Reading %.4f"%(time.time()-start),
+print("Reading %.4f"%(time.time()-start), end=' ')
 start = time.time()
 for i in range(10):
     xlylzl = compute_xyz_lab( pks,
@@ -65,7 +65,7 @@ start = time.time()
 for i in range(100):
     fImageD11.compute_gv( xlylzl, c.omega, osi, wvln, wedge, chi, t, gvf )
 d2 = time.time()-start
-print "%.4f %.4f"%(d1,d2),"Ratio %.2f"%(10*d1/d2)
+print("%.4f %.4f"%(d1,d2),"Ratio %.2f"%(10*d1/d2))
 err = gv-gvf
 scor =abs(err).mean(axis=1)/abs(gv).mean(axis=1)
 assert (scor < 1e-6).all(), "Mismatch"

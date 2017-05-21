@@ -226,7 +226,7 @@ def make_format(c_def_string):
                 num = num.replace("sizeof(INT32)","4")
                 times = eval(num)
             except:
-                print "Please decode",decl
+                print("Please decode",decl)
                 raise
         else:
             times=1
@@ -260,7 +260,7 @@ def interpret_header(header, fmt, names):
     h = {}
     i=0
     for name in names:
-        if h.has_key(name):
+        if name in h:
             if type(values[i]) == type("string"):
                 h[name] = h[name] + values[i]
             else:
@@ -313,8 +313,8 @@ def readesrfstring(s):
     which are in comment sections
     """
     s = s.replace("\000", "")
-    items = filter(None, [len(x)>1 and x or None for x in [
-        item.split("=") for item in s.split(";")]])
+    items = [_f for _f in [len(x)>1 and x or None for x in [
+        item.split("=") for item in s.split(";")]] if _f]
     return items
 
 # instantiate one on import
@@ -340,24 +340,24 @@ def openmarccd(filename):
 if __name__=="__main__":
     # Make a little program to process files
     import sys
-    print "Starting"
+    print("Starting")
     headernames, format = make_format(cdefinition)
-    print "Names and format made"
+    print("Names and format made")
     try:
         head = read_mar_header(sys.argv[1])
     except IndexError:
-        print "Usage: %s filename"% (sys.argv[0])
+        print("Usage: %s filename"% (sys.argv[0]))
         sys.exit()
-    print "Read header, interpreting"
+    print("Read header, interpreting")
     dic = interpret_header(head, format, headernames)
     printed = {}
     for nm in headernames:
-        if printed.has_key(nm):
+        if nm in printed:
             continue
-        print nm,":",dic[nm]
+        print(nm,":",dic[nm])
         printed[nm]=1
     obj = openmarccd(sys.argv[1])
-    print obj.data.shape
+    print(obj.data.shape)
     from matplotlib.pylab import imshow, show
     imshow(obj.data)
     show()

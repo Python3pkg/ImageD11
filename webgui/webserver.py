@@ -2,7 +2,7 @@
 
 import string,cgi,time
 from os import curdir, sep
-from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
+from http.server import BaseHTTPRequestHandler, HTTPServer
 #import pri
 
 
@@ -41,10 +41,10 @@ myworker = worker()
 class MyHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
-        print "Got a GET"
+        print("Got a GET")
         if "setStuff" in self.path:
             items = [ x.split("=") for x in self.path.split("?")[1:] ]
-            print items
+            print(items)
             for k,v in items:
                 myworker.set(k,v)
         try:
@@ -56,7 +56,7 @@ class MyHandler(BaseHTTPRequestHandler):
             else:
                 self.wfile.write(myworker.makemenu())
 
-            print "hi", self.path
+            print("hi", self.path)
             return
                 
         except IOError:
@@ -65,7 +65,7 @@ class MyHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         global rootnode
-        print "Got a POST"
+        print("Got a POST")
         try:
             ctype, pdict = cgi.parse_header(self.headers.getheader('content-type'))
             if ctype == 'multipart/form-data':
@@ -84,12 +84,12 @@ class MyHandler(BaseHTTPRequestHandler):
 def main():
     try:
         server = HTTPServer(('', 80), MyHandler)
-        print dir(server)
-        print server.server_port
-        print 'started httpserver...'
+        print(dir(server))
+        print(server.server_port)
+        print('started httpserver...')
         server.serve_forever()
     except KeyboardInterrupt:
-        print '^C received, shutting down server'
+        print('^C received, shutting down server')
         server.socket.close()
 
 if __name__ == '__main__':

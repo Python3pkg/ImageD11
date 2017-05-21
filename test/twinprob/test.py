@@ -10,5 +10,5 @@ myindexer.assigntorings( )
 myindexer.find( )
 myindexer.scorethem( )
 assert len(myindexer.ubis) == 1, "Should only have one grain"
-print "Seems to be OK"
+print("Seems to be OK")
 

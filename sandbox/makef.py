@@ -21,15 +21,15 @@ import minuit
 m = minuit.Minuit( f )
 
 m.migrad()
-print m.values
+print(m.values)
 
 f = make_sum_func(4)
 grains = {}
 for i in range(4):
     grains[i] = -3.
 
-print 'HELLO'
+print('HELLO')
 m = minuit.Minuit( f )
 
 m.migrad()
-print m.values
+print(m.values)

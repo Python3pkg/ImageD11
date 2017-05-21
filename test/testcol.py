@@ -33,4 +33,4 @@ c.removerows( "a" , [1, 4] )
 assert c.nrows == 2
 assert list(c.b) == [ 1, 6]
 
-print "Passed"
+print("Passed")

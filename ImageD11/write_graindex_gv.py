@@ -29,10 +29,10 @@ def make_ds_list(cell,limit=2.):
     """
     Generates a list of d-spacings
     """
-    print "Generating hkls with unit cell:", cell
+    print("Generating hkls with unit cell:", cell)
     cell.makerings(limit)
     ds_list=[]
-    keys = cell.ringhkls.keys() # d-spacings
+    keys = list(cell.ringhkls.keys()) # d-spacings
     keys.sort()
     ptype=0
     for ky in keys:
@@ -44,7 +44,7 @@ def make_ds_list(cell,limit=2.):
         hkls_in_ring = cell.ringhkls[ky]
         hkls_in_ring.sort()
         hkls_in_ring.reverse()
-        print hkls_in_ring
+        print(hkls_in_ring)
         for h,k,l in hkls_in_ring:
             if h+k+l >= hklmax and h >= hmax and k>kmax:
                 hklmax = h+k+l
@@ -81,7 +81,7 @@ def write_graindex_gv(outfilename,gv,tth,eta,omega,intensity,unitcell):
     """
     outputfile = open(outfilename,"w")
     ds_list=make_ds_list(unitcell) #
-    print ds_list
+    print(ds_list)
     order = np.argsort(tth)
     nr=0
     for i in order:

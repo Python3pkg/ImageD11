@@ -21,7 +21,7 @@ def filtergrain(options):
         drlv2 = indexing.calc_drlv2(o.grains[(gn,options.fltfile)].ubi,
                                     o.gv )
         o.scandata[options.fltfile].filter(drlv2 > options.tol*options.tol)
-        print gn, o.scandata[options.fltfile].nrows
+        print(gn, o.scandata[options.fltfile].nrows)
     o.scandata[options.fltfile].writefile(options.newfltfile)
 
 

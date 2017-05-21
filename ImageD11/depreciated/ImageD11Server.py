@@ -9,7 +9,7 @@ Docstring
 # Thanks also to AG..
 """
 
-from SimpleXMLRPCServer import SimpleXMLRPCServer
+from xmlrpc.server import SimpleXMLRPCServer
 import sys, logging, threading
 
 class Server(SimpleXMLRPCServer):
@@ -138,7 +138,7 @@ if __name__=="__main__":
         try:
             use_this_port = int(sys.argv[1])
         except (ValueError, IndexError) :
-            print "usage: %s [portnumber]"% (sys.argv[0])
+            print("usage: %s [portnumber]"% (sys.argv[0]))
             
             
     # Set up the logging stuff

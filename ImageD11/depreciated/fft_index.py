@@ -23,7 +23,7 @@ s = 128
 g = zeros((s,s,s),Float)
 
 cell_size = s*mr/2.
-print "FFT cell size is 128*mr/2",cell_size
+print("FFT cell size is 128*mr/2",cell_size)
 
 n_use = 0
 n_ignore = 0
@@ -62,27 +62,27 @@ for p in io.gv:
         assert abs(sm-1)<1e-5, "total peak, hkl "+str(hrkrlr)+" "+str(sm)
     else:
         n_ignore +=1
-print "grid filling takes",time.time()-start
-print "Used",n_use,"peaks and ignored",n_ignore,"peaks"
-print "Starting FFT",g.shape, g.typecode()
+print("grid filling takes",time.time()-start)
+print("Used",n_use,"peaks and ignored",n_ignore,"peaks")
+print("Starting FFT",g.shape, g.typecode())
 
 #r = abs(inverse_fftnd(g))*multiply.reduce(g.shape)
 r = abs(fftnd(g))
 
-print "Done FFT", r.shape, r.typecode(),r[0,0,0]
+print("Done FFT", r.shape, r.typecode(),r[0,0,0])
 
 # result is complex numbers
 # peak search?
 
 sh = r.shape
 origin = r[0,0,0]
-print "Origin peak",origin,"array shape", maximum.reduce(ravel(r))
+print("Origin peak",origin,"array shape", maximum.reduce(ravel(r)))
 l = multiply.reduce(r.shape)
 indices = compress(r.flat > origin*cutoff, arange(0,l,1,Int))
 #indices = array([0,1,2,67,12345,44563])
 vals = take(r.flat,indices)
 rlgrid = cell_size/s
-print "center",r[64,64,64]
+print("center",r[64,64,64])
 order = argsort(vals)
 pks = []
 
@@ -107,7 +107,7 @@ class peak:
             dz = self.z - other.z
             return sqrt(dx*dx  + dy*dy + dz*dz)
         except:
-            print d2,self,other
+            print(d2,self,other)
             raise
                   
         dx = min( (self.x - other.x)%self.grid_x,
@@ -145,8 +145,8 @@ for o in order[::-1][:1000]:
 origin = peak(0,0,0,0)
 ooo = peak(s-1,s-1,s-1,0)
 
-print len(pks),"peaks found, real space grid size",rlgrid
-print "   i    j    k    height     length    x y z "
+print(len(pks),"peaks found, real space grid size",rlgrid)
+print("   i    j    k    height     length    x y z ")
 dsu = [ (p.h,p) for p in pks]
 dsu.sort()
 pks = [p[1] for p in dsu[::-1]]
@@ -176,23 +176,23 @@ for p in pks[:40]:
     
     x,y,z = p.x*rlgrid , p.y*rlgrid, p.z*rlgrid
     l = sqrt(x*x+y*y+z*z)
-    print "%4d %4d %4d %9.2f %9.2f"%(p.x, p.y, p.z, p.h,l),
-    print " %8.3f %8.3f %8.3f"%(x,y,z),
+    print("%4d %4d %4d %9.2f %9.2f"%(p.x, p.y, p.z, p.h,l), end=' ')
+    print(" %8.3f %8.3f %8.3f"%(x,y,z), end=' ')
     for q in pks[:40]:        
-        print "%.2f "%dotp(p,q),
-    print 
+        print("%.2f "%dotp(p,q), end=' ')
+    print() 
 
 
 
 sys.exit()
 for g in io.gv:
-    for i in g: print "%6.4f "%(i),
+    for i in g: print("%6.4f "%(i), end=' ')
     h = dot(true_orientation,g)
     hint = floor(h+0.5).astype(Int)
     drlv = sqrt(dot(h-hint,h-hint))
-    print "%8.4f "%(drlv),
-    for i in h: print "%8.4f "%(i),
-    print
+    print("%8.4f "%(drlv), end=' ')
+    for i in h: print("%8.4f "%(i), end=' ')
+    print()
 
     
 

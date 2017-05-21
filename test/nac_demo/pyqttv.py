@@ -20,7 +20,7 @@ class PeaksTableModel(QAbstractTableModel):
         super(PeaksTableModel,self).__init__()
 	start = time.time()
 	self.colfile = columnfile( sys.argv[1] )
-	print time.time()-start
+	print(time.time()-start)
  
     def rowCount(self,index=QModelIndex()):
         return self.colfile.nrows

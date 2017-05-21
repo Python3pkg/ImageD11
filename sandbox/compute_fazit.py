@@ -47,7 +47,7 @@ class xydisp:
         self.pars.loadparameters( parfile )
         for key in self.required_pars:
             
-            if not self.pars.parameters.has_key( key ):
+            if key not in self.pars.parameters:
                 raise Exception("Missing parameter "+str(par))
 
     def compute_tth_eta(self, dims):
@@ -172,15 +172,15 @@ def main():
         raise
     except:
         parser.print_help()
-        print "\nSorry, there was a problem interpreting your command line"
+        print("\nSorry, there was a problem interpreting your command line")
         raise
 
         
     if options.pars is None:
-        print "Failed: You must supply a parameters file, -p option"
+        print("Failed: You must supply a parameters file, -p option")
         sys.exit()
     if not os.path.exists( options.pars ):
-        print "Cannot find your file",options.pars
+        print("Cannot find your file",options.pars)
         sys.exit()
 
     worker = xydisp(

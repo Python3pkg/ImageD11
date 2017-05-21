@@ -99,14 +99,14 @@ def testpolywalkandplot(vertices):
     obj.walkaroundintegervertices()
     plot(np.array(vertices)[:,0],np.array(vertices)[:,1],"o")
     plot(np.array(obj.path)[:,0],np.array(obj.path)[:,1],"+-")
-    print obj.area()
+    print(obj.area())
 
 def distance(p1,p2):
     return sqrt(p1[0]*p1[0]+p2[0]*p2[0])
 
 
 def main():
-    print "started"
+    print("started")
     testpolywalkandplot([ [ 1.1, 0.9] ,
                           [ 3.2, 1.1] ,
                           [ 3.2, 4.2] ,

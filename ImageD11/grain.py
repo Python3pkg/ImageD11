@@ -30,7 +30,7 @@ class grain:
         try:
             self.Rod = ImageD11.indexing.ubitoRod(self.ubi)
         except:
-            print self.ubi
+            print(self.ubi)
             raise
         self.mt = numpy.dot(self.ubi, self.ubi.T)
         self.rmt = numpy.linalg.inv(self.mt)
@@ -100,7 +100,7 @@ def read_grain_file(filename):
         if len(u)==3:
             grainsread.append( grain(u, t) )
             for k in ["name","npks","Rod","intensity_info"]:
-                if p.has_key(k):
+                if k in p:
                     setattr(grainsread[-1], k, p[k])
             p={}
             u = []

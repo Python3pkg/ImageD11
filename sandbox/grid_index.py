@@ -71,26 +71,26 @@ for t_x, t_y, t_z in translations:
     if first:
         first=False
     ng = doindex( tmp+".gve", t_x,t_y,t_z)
-    print t_x, t_y, t_z, ng,time.time()-start
+    print(t_x, t_y, t_z, ng,time.time()-start)
     if ng > 0:
         ret = os.system("makemap.py -u %s.ubi -U %s.map -s cubic --omega_slop=0.13 "%(tmp,tmp) +
                             "-f %s.flt  -t 0.02 -p %s  "%(
                                tmp,sys.argv[2]))
         if ret !=0 :
-            print "bad 1"
+            print("bad 1")
             raise
         ret = os.system("makemap.py -u %s.map -U %s.map -s cubic --omega_slop=0.13 "%(tmp,tmp) +
                             "-f %s.flt  -t 0.01 -p %s  "%(
                                tmp,sys.argv[2]))
         if ret !=0 :
-            print "bad 1"
+            print("bad 1")
             raise
         os.system("cutgrains.py %s.map %s.map %d"%(tmp,tmp,NPKS))
         ret = os.system("makemap.py -u %s.map -U %s.map -s cubic --omega_slop=0.13  "%(tmp,tmp) +
                             "-f %s.flt -F %s.flt -t 0.01 -p %s "%(
                                 tmp,tmp,sys.argv[2]))
         if ret !=0 :
-            print "bad 3"
+            print("bad 3")
             raise
         open("all%s.map"%(tmp),"a").write(open("%s.map"%(tmp)).read())
         mytransformer.loadfiltered("%s.flt"%(tmp))

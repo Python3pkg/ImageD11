@@ -25,7 +25,7 @@ All communication should be via parent guicommander object
 Owner of the plot3d window
 """
 
-from listdialog import listdialog
+from .listdialog import listdialog
 
 
 class guiindexer:
@@ -142,7 +142,7 @@ class guiindexer:
         """
         import logging
         try:
-            import plot3d
+            from . import plot3d
         except:
             import traceback
             traceback.print_last()

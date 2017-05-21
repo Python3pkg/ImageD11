@@ -108,7 +108,7 @@ def openxye(filename):
     h['columns']=3
     for line in open(filename,"r"):
         try:
-            xye.append(map(float,line.split()))
+            xye.append(list(map(float,line.split())))
         except:
             pass
     a=np.array(xye)
@@ -149,7 +149,7 @@ def readbytestream(file,offset,x,y,nbytespp,datatype='int',signed='n',
     if datatype=='double' :
         tin=np.float64
     if tin=="dunno" :
-        raise SyntaxError, "Did not understand what type to try to read"
+        raise SyntaxError("Did not understand what type to try to read")
     opened=0
     if isinstance(tin, type(file)):  # Did we get a string or a file point)er?
         f=open(file,'rb')
@@ -184,7 +184,7 @@ def readbrukerheader(file):
         key,val=block[i-80:i].split(":",1)   # uses 80 char lines in key : value format
         key=key.strip()         # remove the whitespace (why?)
         val=val.strip()
-        if Header.has_key(key):             # append lines if key already there
+        if key in Header:             # append lines if key already there
             Header[key]=Header[key]+'\n'+val
         else:
             Header[key]=val
@@ -202,7 +202,7 @@ def readbrukerheader(file):
             key,val=block[i-80:i].split(":",1)
             key=key.strip()
             val=val.strip()
-            if Header.has_key(key):
+            if key in Header:
                 Header[key]=Header[key]+'\n'+val
             else:
                 Header[key]=val
@@ -233,9 +233,9 @@ def readbruker(file):
     try:
         npixelb=int(Header['NPIXELB'])   # you had to read the Bruker docs to know this!
     except:
-        print "length",len(Header['NPIXELB'])
+        print("length",len(Header['NPIXELB']))
         for c in Header['NPIXELB']:
-            print "char:",c,ord(c)
+            print("char:",c,ord(c))
         raise
     rows   =int(Header['NROWS'])
     cols   =int(Header['NCOLS'])
@@ -318,7 +318,7 @@ def edfheader(file):
     #f.seek( -int(hd["Size"]) , 2  )
     #datastring=f.read( int(hd["Size"]) )
     #f.close()
-    if "Size" not in hd.keys():
+    if "Size" not in list(hd.keys()):
         if hd["DataType"]=="UnsignedShort":
             hd["Size"]=hd["rows"]*hd["columns"]*2
         if hd["DataType"]=="FLOAT":   # fit2d
@@ -347,7 +347,7 @@ def openedf(filename):
             try:
                 f=bz2.BZ2File(filename+".bz2","rb")
             except:
-                print "Cannot manage to open %s"%(filename)
+                print("Cannot manage to open %s"%(filename))
                 raise
     hd=edfheader(f)
     # TODO : USE READBYTESTREAM
@@ -355,7 +355,7 @@ def openedf(filename):
         # seek back from the end of the file - fails on gzipped so read all
         datastring=f.read()[-int(hd["Size"]):] # all of the data
     except:
-        print hd
+        print(hd)
         raise
     f.close()
     # Convert datastring to Numeric array
@@ -400,7 +400,7 @@ def writebruker(filename,dataobject):
     else:
         # data must be positive
         twobytes = pow(2,16)-1
-        indices = np.compress( r > twobytes , range(r.shape[0]) )
+        indices = np.compress( r > twobytes , list(range(r.shape[0])) )
         r = np.where(r < twobytes, r, twobytes)
         noverfl = indices.shape[0]
     o = hs.find("NOVERFL")
@@ -460,7 +460,7 @@ DATE (scan begin)= %s ;"""
     args = tuple([str(hd[k.lstrip().rstrip()]) for k in keys])
     s = "{\n"+h%args
     keys = keys + ["headerstring","rows","columns"]
-    ok = hd.keys()
+    ok = list(hd.keys())
     ok.sort()
     for k in ok:
         if k not in keys:
@@ -481,11 +481,11 @@ def writeedf(filename,dataobject):
 
 def writedata(filename,dataobject):
     # identify type of dataobject
-    if dataobject.header.has_key("FORMAT"):
+    if "FORMAT" in dataobject.header:
         if int(dataobject.header["FORMAT"]) == 86:
             writebruker(filename,dataobject)
             return
-    if dataobject.header.has_key("HeaderID"):
+    if "HeaderID" in dataobject.header:
         if dataobject.header["HeaderID"] == "EH:000001:000000:000000":
             writeedf(filename,dataobject)
             return
@@ -498,24 +498,24 @@ def writedata(filename,dataobject):
 if __name__=="__main__":
     import sys,time
     if len(sys.argv)!=2:
-        print "Usage: %s filename" % (sys.argv[0])
+        print("Usage: %s filename" % (sys.argv[0]))
         sys.exit()
     t1=time.time()
     testdata=opendata(sys.argv[1])
     t2=time.time()
-    print "Time to read file =",t2-t2,"/s"
-    print "Rows              =",testdata.header['rows']
-    print "Columns           =",testdata.header['columns']
-    print "Maximum           =",np.maximum.reduce(np.ravel(testdata.data))
-    print "Minimum           =",np.minimum.reduce(np.ravel(testdata.data))
+    print("Time to read file =",t2-t2,"/s")
+    print("Rows              =",testdata.header['rows'])
+    print("Columns           =",testdata.header['columns'])
+    print("Maximum           =",np.maximum.reduce(np.ravel(testdata.data)))
+    print("Minimum           =",np.minimum.reduce(np.ravel(testdata.data)))
     t3=time.time()
-    print "Time native ops   =",t3-t2,"/s"
+    print("Time native ops   =",t3-t2,"/s")
     s =sum( np.ravel(testdata.data).astype(np.float32) )  # 16 bit overflows
     sq=sum( np.pow( ravel(testdata.data).astype(np.float32), 2) )
     n=testdata.header['rows']*testdata.header['columns']
-    print "Sum               =",s
-    print "Average           =",s/n
-    print "Variance          =",np.sqrt(sq/n - (s/n)*(s/n))
+    print("Sum               =",s)
+    print("Average           =",s/n)
+    print("Variance          =",np.sqrt(sq/n - (s/n)*(s/n)))
     t4=time.time()
-    print "Time float ops    =",t4-t3,"/s"
-    print "Total run time    =",t4-t1,"/s"
+    print("Time float ops    =",t4-t3,"/s")
+    print("Total run time    =",t4-t1,"/s")

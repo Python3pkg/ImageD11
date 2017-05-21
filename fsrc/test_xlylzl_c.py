@@ -62,14 +62,14 @@ for o11,o12,o21,o22 in [ [ 1,0,0,1],
                                        outxyz)
         error = np.abs(outxyz - xlylzl.T)/np.abs(outxyz+1)
         if  error.mean() > 1e-5:
-            print tx,ty,ty
-            print outxyz[0,:]
-            print xlylzl[:,0]
-            print o11,o12,o21,o22,error.mean()
+            print(tx,ty,ty)
+            print(outxyz[0,:])
+            print(xlylzl[:,0])
+            print(o11,o12,o21,o22,error.mean())
 
         assert error.mean() < 1e-5
 
-print "ok"
+print("ok")
 
 
 # f2py -m fImageD11 -c fImageD11.f90 --f90flags="-fopenmp" -lgomp -lpthread  --fcompiler=gnu95

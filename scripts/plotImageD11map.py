@@ -24,7 +24,7 @@ try:
 except:
     outersf = 1.0
 
-print "Scale factor is",outersf
+print("Scale factor is",outersf)
 for g in gf:
     #print g.translation, g.ubi
     mapfile.write("\n\n")

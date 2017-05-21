@@ -12,7 +12,7 @@ from this I think
 # Most probably programming python by Mark Lutz
 """
 
-import Tkinter as Tk
+import tkinter as Tk
 
 class GuiMaker(Tk.Frame):   # Inherit from Tk frame
     """
